@@ -1,0 +1,220 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Movie Explorer | Discover Your Next Favorite</title>
+  <meta
+    name="description"
+    content="Discover movies, explore their details, and save your favorites."
+  >
+
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="min-h-screen bg-[#09090f] text-white selection:bg-violet-500">
+
+  <!-- Background glow -->
+  <div class="pointer-events-none fixed inset-0 overflow-hidden">
+    <div class="absolute -left-40 -top-40 h-96 w-96 rounded-full bg-violet-700/20 blur-[120px]"></div>
+    <div class="absolute right-0 top-1/3 h-96 w-96 rounded-full bg-fuchsia-700/10 blur-[120px]"></div>
+  </div>
+
+  <!-- Navbar -->
+  <nav class="sticky top-0 z-30 border-b border-white/10 bg-[#09090f]/85 backdrop-blur-xl">
+    <div class="mx-auto flex max-w-7xl items-center justify-between px-5 py-5 sm:px-8">
+
+      <a href="index.html" class="flex items-center gap-3">
+        <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-violet-600 text-lg shadow-lg shadow-violet-600/30">
+          ▶
+        </div>
+
+        <div>
+          <span class="block text-lg font-extrabold sm:text-xl">
+            Movie<span class="text-violet-400">Explorer</span>
+          </span>
+
+          <span class="hidden text-[10px] uppercase tracking-[0.25em] text-slate-500 sm:block">
+            Your cinematic universe
+          </span>
+        </div>
+      </a>
+
+      <div class="flex items-center gap-4 text-sm sm:gap-7 sm:text-base">
+        <a href="index.html" class="font-semibold text-violet-400">
+          Home
+        </a>
+
+        <a href="favorites.html" class="text-slate-400 transition hover:text-white">
+          ♥ Favorites
+        </a>
+
+        <a href="#about" class="hidden text-slate-400 transition hover:text-white sm:block">
+          About
+        </a>
+      </div>
+
+    </div>
+  </nav>
+
+  <main class="relative mx-auto max-w-7xl px-5 sm:px-8">
+
+    <!-- Hero section -->
+    <section class="py-16 text-center sm:py-24">
+
+      <div class="mb-6 inline-flex items-center gap-2 rounded-full border border-violet-400/20 bg-violet-500/10 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-violet-300">
+        <span class="h-2 w-2 rounded-full bg-violet-400"></span>
+        Your next movie night starts here
+      </div>
+
+      <h1 class="mx-auto max-w-4xl text-4xl font-black leading-tight tracking-tight sm:text-6xl lg:text-7xl">
+        Every movie has a story.
+        <span class="mt-2 block bg-gradient-to-r from-violet-400 via-fuchsia-400 to-pink-400 bg-clip-text text-transparent">
+          Find yours.
+        </span>
+      </h1>
+
+      <p class="mx-auto mt-6 max-w-2xl text-base leading-7 text-slate-400 sm:text-lg">
+        From unforgettable classics to hidden gems, explore movies,
+        discover their stories, and build your personal collection.
+      </p>
+
+      <!-- Search form: keep these IDs for script.js -->
+      <form
+        id="searchForm"
+        class="mx-auto mt-10 flex max-w-2xl flex-col gap-3 rounded-2xl border border-white/10 bg-white/[0.04] p-3 shadow-2xl shadow-violet-950/20 sm:flex-row"
+      >
+        <div class="flex min-w-0 flex-1 items-center gap-3 px-3">
+          <span class="text-xl text-violet-400">⌕</span>
+
+       
+<input
+  id="movieInput"
+  type="search"
+  placeholder="Search by movie title..."
+  aria-label="Movie title"
+  style="color-scheme: dark;"
+  class="w-full min-w-0 border-0 bg-transparent py-3 text-white outline-none ring-0 placeholder:text-slate-500 focus:border-0 focus:outline-none focus:ring-0 focus-visible:outline-none"
+/>
+        </div>
+
+        <button
+          id="searchBtn"
+          type="submit"
+          class="rounded-xl bg-violet-600 px-7 py-3 font-bold shadow-lg shadow-violet-600/20 transition hover:-translate-y-0.5 hover:bg-violet-500"
+        >
+          Search Movies →
+        </button>
+      </form>
+
+      <p id="statusMessage" role="status" aria-live="polite" class="mt-5 text-sm text-slate-400"></p>
+
+      <div class="mt-7 flex flex-wrap justify-center gap-3 text-xs text-slate-400 sm:text-sm">
+        <span class="rounded-full border border-white/10 px-4 py-2">🎬 Explore movies</span>
+        <span class="rounded-full border border-white/10 px-4 py-2">✦ View movie details</span>
+        <span class="rounded-full border border-white/10 px-4 py-2">♥ Save favorites</span>
+      </div>
+
+    </section>
+
+    <!-- Movie search results -->
+    <section id="resultsSection" class="pb-16">
+
+      <div class="mb-7 flex flex-wrap items-end justify-between gap-4 border-b border-white/10 pb-5">
+        <div>
+          <p class="mb-2 text-xs font-semibold uppercase tracking-[0.2em] text-violet-400">
+            The collection
+          </p>
+
+          <h2 class="text-2xl font-bold sm:text-3xl">
+            Your discoveries
+          </h2>
+
+          <p class="mt-2 text-sm text-slate-500">
+            Search for a movie to get started.
+          </p>
+        </div>
+
+        <a
+          href="favorites.html"
+          class="rounded-xl border border-white/10 px-4 py-2.5 text-sm font-semibold text-slate-300 transition hover:border-violet-400/50 hover:text-violet-300"
+        >
+          View Favorites →
+        </a>
+      </div>
+
+      <!-- script.js inserts the movie cards here -->
+      <div
+        id="movieContainer"
+        class="grid grid-cols-1 gap-7 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+      ></div>
+
+    </section>
+
+    <!-- About section -->
+    <section id="about" class="mb-16 rounded-3xl border border-white/10 bg-gradient-to-br from-violet-950/40 to-slate-900/40 p-7 sm:p-10">
+      <p class="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-violet-400">
+        About the project
+      </p>
+
+      <h2 class="text-2xl font-bold sm:text-3xl">
+        Made for people who love movies.
+      </h2>
+
+      <p class="mt-4 max-w-3xl leading-7 text-slate-400">
+        Movie Explorer uses the OMDb API to search movies and show their
+        details. You can save your favorite movies in your browser and
+        revisit them whenever you want.
+      </p>
+    </section>
+
+  </main>
+
+  <!-- Centered movie details modal -->
+  <div
+    id="movieModal"
+    class="fixed inset-0 z-50 hidden items-center justify-center bg-black/80 p-4 backdrop-blur-sm"
+    role="dialog"
+    aria-modal="true"
+    aria-label="Movie details"
+  >
+    <div class="relative max-h-[85vh] w-full max-w-lg overflow-y-auto rounded-2xl border border-white/10 bg-slate-900 p-6 shadow-2xl shadow-violet-950/30">
+
+      <button
+        id="closeModal"
+        type="button"
+        aria-label="Close movie details"
+        class="absolute right-4 top-3 rounded-lg px-3 py-1 text-2xl text-slate-400 transition hover:bg-white/10 hover:text-white"
+      >
+        &times;
+      </button>
+
+      <div id="modalContent" class="pt-5"></div>
+
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="relative border-t border-white/10 bg-white/[0.02]">
+    <div class="mx-auto flex max-w-7xl flex-col items-center justify-between gap-3 px-5 py-7 text-center sm:flex-row sm:px-8 sm:text-left">
+      <p class="font-bold">
+        Movie<span class="text-violet-400">Explorer</span>
+      </p>
+
+      <p class="text-sm text-slate-500">
+        Built with HTML, Tailwind CSS and JavaScript.
+      </p>
+
+      <a href="#top" class="hidden text-sm text-slate-400 hover:text-white">
+        Back to top ↑
+      </a>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
+
+
